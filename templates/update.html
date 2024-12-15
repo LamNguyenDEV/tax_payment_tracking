@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Payment Record</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <div class="dropdown">
+        <a href="/"><button>Home</button></a>
+    </div>
+    <h1>Update Payment Record</h1>
+
+    <form action="{{ url_for('update', id=payment.id) }}" method="post">
+        <p>Company: <input type="text" name="company" value="{{ payment['company'] }}"></p>
+        <p>Amount: <input type="text" name="amount" value="{{ payment['amount'] }}"></p>       
+        <p>Payment Date: <input type="text" name="date" value="{{ payment['payment_date'] }}"></p>
+        <label for="status">Status:</label>
+        <select name="status" id="status" >
+            <option value="PAID">Paid</option>
+            <option value="UNPAID">Unpaid</option>
+        </select>
+        <label for="due_date">Due Date:</label>
+        <select id="due_date" name="due_date" required>
+            <option value="04/15">April 15</option>
+            <option value="06/15">June 15</option>
+            <option value="09/15">September 15</option>
+            <option value="01/15">January 15</option>
+        </select>  
+        <p>Are you sure you want to update this record?</p>
+        <button type="submit" name="confirm" value="yes">Yes</button>
+        <button type="submit" name="confirm" value="no">No</button>
+    </form>
+
+</body>
+</html>

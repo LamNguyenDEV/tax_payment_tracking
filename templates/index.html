@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask SQLite Example</title>
+    <link rel="stylesheet" href="../static/styles.css">
+
+    <script type="text/javascript">
+        function hiddenAdd_Button(){
+            if(document.getElementById('tagabc').hidden == false){
+                document.getElementById('tagabc').hidden = true
+            } else{
+                document.getElementById('tagabc').hidden = false
+            }
+        }       
+    </script>
+</head>
+<body>
+    <h1>Company Lists</h1>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+       
+            {% for message in messages %}
+                <h3 class="alert">{{ message }}</h3>
+            {% endfor %}
+        
+    {% endif %}
+{% endwith %}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Company</th>
+                <th>Amount</th>
+                <th>Payment date</th>
+                <th>Status</th>
+                <th>Due date</th>
+                <th>Tool</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for payment in payments %}
+            <tr>
+                <td>{{payment.id}}</td>
+                <td>{{ payment.company }}</td>
+                <td>{{ payment.amount }}</td>
+                <td>{{payment.payment_date}}</td>
+                <td>{{payment.status}}</td>
+                <td>{{payment.due_date}}</td>
+                <td>
+                    <div class="dropdown">
+                        <button>Actions</button>
+                        <div class="dropdown-content">
+                            <a href="/update/{{ payment['id'] }}" onclick="editRecord()">Edit</a>
+                            <a id="delete_record" href="/delete/{{ payment['id'] }}" onclick="askConfirmation()">Delete</a>
+                        </div>
+                    </div>
+        
+                </td>
+            </tr>
+
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+    <div class="dropdown">
+        <button onclick="hiddenAdd_Button()" >Insert Records </button> 
+        <br>
+    </div>
+    <br><br>
+    <div id="tagabc" hidden class="addForm">       
+    <form action="/add" method="POST">
+        <label for="company">Company:</label>
+        <input type="text" id="company" name="company" required><br><br>
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" required><br><br>
+        <label for="payment_date">Payment Date:</label>
+        <input type="date" id="payment_date" name="payment_date" required><br><br>
+        <label for="status">Status:</label>
+        <select name="status" id="status" required>
+            <option value="PAID">Paid</option>
+            <option value="UNPAID">Unpaid</option>
+        </select><br><br>
+        <label for="due_date">Due Date:</label>
+        <select id="due_date" name="due_date" required>
+            <option value="04/15">April 15</option>
+            <option value="06/15">June 15</option>
+            <option value="09/15">September 15</option>
+            <option value="01/15">January 15</option>
+        </select><br><br>
+
+        <button type="submit">Add a New Record</button>
+        <br><br>
+    </form>
+
+    </div>
+        <a href="/search" class="dropdown"><button>Search Records</button></a>
+   
+   
+</body>
+
+
+
+<script>
+    // function askConfirmation() {
+    //     // Show confirmation dialog
+    //     var userResponse = confirm("Do you want to proceed deleting this record?");
+        
+    //     // Check the user's response
+    //     if (userResponse) {
+    //         alert("You chose to proceed!");
+    //         user_input= 'y'
+            
+            
+    //     } else {
+    //         alert("You chose not to proceed.");
+    //         document.getElementById("delete_record").href="/";
+            
+    //     }
+    // }
+</script>
+</html>
